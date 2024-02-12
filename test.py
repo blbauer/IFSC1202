@@ -1,3 +1,3 @@
-from math import sqrt
-x = int(input("Enter a number: "))
-print(x**0.5)
+from random import random
+x = random()
+print(x)
