@@ -1,0 +1,3 @@
+Fido, Dog, 3
+Fluffy, Cat, 5
+Tweety, Bird, 4
