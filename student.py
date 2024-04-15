@@ -1,53 +1,56 @@
-inputFile = "07.Project Angles Input.txt"
-outputFile = "07.Project Angles Output.txt"
+#Jacqueline Suchan
+#T00611541
 
-input = open(inputFile, 'r')
-output = open(outputFile, 'w')
+class Student ():
+    def __init__(self, firstname, lastname, tnumber, scores):
+        self.FirstName = firstname
+        self.Lastname = lastname
+        self.TNumber = tnumber
+        self.Grades = scores
 
-recordCount = 0
-decimalDegrees = 0.0
-degrees = 0.0
-minutes = 0.0
-seconds = 0.0
-i = 0
-
-ddmmss = input.readline()
-
-def ParseDegreeString(ddmmss):
-    i = ddmmss.find(chr(176)) 
-    if (ddmmss[i-2] == '"'):
-        degreeNum = ddmmss[i-1]
-    else:
-        degreeNum = ddmmss[i-2] + ddmmss[i-1]
-    degrees = float(degreeNum)
-
-    j = ddmmss.find('\'') 
-    if ddmmss[j-2] == chr(176):
-        minsNum = ddmmss[j-1]
-    else:
-        minsNum = ddmmss[j-2] + ddmmss[j-1]
-    minutes = float(minsNum)
+    def RunningAverage(self):
+        total = 0
+        numberofgrades = 0
+        for i in range (len(self.Grades)):
+            if self.Grades[i] != "":
+                total = total + float(self.Grades[i])
+                numberofgrades += 1
+        RunningAverage = total / numberofgrades
+        return RunningAverage
     
-    k = ddmmss.find('"') 
-    if ddmmss[k-2] == '\'':
-        secsNum = ddmmss[k-1]
-    else:
-        secsNum = ddmmss[k-2] + ddmmss[k-1]
-    seconds = float(secsNum)
-    return degrees, minutes, seconds
-
-def DDMMSStoDecimal(degrees, minutes, seconds):
-    decimalDegrees = (degrees*3600 + minutes*60 + seconds)/3600
-    return decimalDegrees
-
-while ddmmss != "":
-    degrees, minutes, seconds = ParseDegreeString(ddmmss)
-    decimalDegrees = DDMMSStoDecimal(degrees, minutes, seconds)
-    output.write(str(decimalDegrees) + "\n")
-    recordCount += 1
-    ddmmss = input.readline()
-
-print(recordCount, "records processed")
-
-input.close()
-output.close()
+    def TotalAverage(self):
+        numberofgrades = len(self.Grades)
+        total = 0
+        for i in range (len(self.Grades)):
+            if self.Grades[i] != "":
+                total = total + float(self.Grades[i])
+        TotalAverage = total / numberofgrades
+        return TotalAverage
+    
+    
+    def LetterGrade(self):
+        scores = self.TotalAverage()
+        if scores >= 90:
+            return "A"
+        if scores >= 80:
+            return "B"
+        if scores >= 70:
+            return "C"
+        if scores >= 60:
+            return "D"
+        if scores < 60:
+            return "F"
+        
+studentfile = open("10.Project Student Scores.txt", 'r')
+line = studentfile.readline()
+while line != "":
+    grades = line.split(",")
+    mystudent = Student(grades[0],grades[1],grades[2],grades[3:])
+    print("{:>12s} {:>12s} {:>12s} {:>12.2f} {:>12.2f} {:>12s}".format(mystudent.FirstName, mystudent.Lastname, mystudent.TNumber, mystudent.RunningAverage(), mystudent.TotalAverage(), mystudent.LetterGrade()))
+    print(mystudent.FirstName)
+    print(mystudent.Lastname)
+    print(mystudent.TNumber)
+    print(mystudent.RunningAverage())
+    print(mystudent.TotalAverage())
+    print(mystudent.LetterGrade())
+    line = studentfile.readline()
