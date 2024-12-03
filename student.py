@@ -1,140 +1,83 @@
-#Jacqueline Suchan
-#T00611541
+class Student:
+    def __init__(self, firstname, lastname, tnumber):
+        self.FirstName = firstname
+        self.LastName = lastname
+        self.TNumber = tnumber
+        self.Grades = []
+    def RunningAverage(self):
+      rtotal = 0
+      count = 0
+      for grade in self.Grades:
+        if grade != "":
+          count += 1
+          rtotal += int(grade)
+      if count == 0:
+        return 0
+      return rtotal / count
 
-class User ():
-    def __init__(self, username, password ):
-        self.UserName = username
-        self.Password = password
+    def TotalAverage(self):
+      ttotal=0
+      for grade in self.Grades:
+        if grade == "":
+          ttotal+=0
+        else:
+          ttotal+=int(grade)
+      if len(self.Grades) == 0:
+        return 0
+      return ttotal / len(self.Grades)
 
-class UserList ():
-    def __init__(self, filename ):
-        self.FileName = filename
-        self.myuserlist = []
+    def LetterGrade(self):
+      tavg = self.TotalAverage()
+      match (tavg):
+        case _ if tavg >= 90:
+          return "A"
+        case _ if tavg >= 80:
+          return "B"
+        case _ if tavg >= 70:
+          return "C"
+        case _ if tavg >= 60:
+          return "D"
+        case _ if tavg < 60:
+          return "F"
 
-    def ReadUserFile(self):
-        userfile = open(self.FileName, "r")
-        userline = userfile.readline()
-        while userline != "":
-            userdata = userline.split(",")
-            self.myuserlist.append(User(userdata[0].strip(),userdata[1].strip()))
-            userline = userfile.readline()
-        userfile.close()
-
-    def WriteUserFile(self):
-        userlistfile = open("Final Project Passwords.txt", "w")
-        for i in range(len(self.myuserlist)):
-            userlistfile.write(self.myuserlist[i].UserName + "," + self.myuserlist[i].Password + "\n")
-        userlistfile.close()
-        print("Data Saved")
-        
-
-    def DisplayUserList(self):
-        print("{:<15s} {:<15s}".format("Username", "Password"))
-        print("{:<15s} {:<15s}".format(15*"-", 15*"-"))
-        for i in range(len(self.myuserlist)):
-            print("{:<15s} {:<15s}".format(self.myuserlist[i].UserName, self.myuserlist[i].Password))
-
-    def FindUsername(self, username):
-        for i in range(len(self.myuserlist)):
-            if self.myuserlist[i].UserName == username:
-                return i
+class StudentList:
+    def __init__(self):
+        self.Studentlist = []
+    def add_student(self, firstname, lastname, tnumber):
+        self.Studentlist.append(Student(firstname, lastname, tnumber))
+    def find_student(self, tnumber):
+        for student in self.Studentlist:
+            if student.TNumber == tnumber:
+                return self.Studentlist.index(student)
         return -1
+    def print_student_list(self):
+      spacer = "-" * 12
+      print("{:>12} {:>12} {:>12} {:>12} {:>12} {:>12}".format("First", "Last", "ID", "Running", "Semester", "Letter"))
+      print("{:>12} {:>12} {:>12}{:>12} {:>12} {:>12}".format("Name","Name","Number","Average","Average","Grade"))
+      print("{:12} {:12} {:12} {:12} {:12} {:12}".format(spacer,spacer,spacer,spacer,spacer,spacer))
+      for student in self.Studentlist:
+        print("{:>12}".format(student.FirstName), end=" ")
+        print("{:>12}".format(student.LastName), end=" ")
+        print("{:>12}".format(student.TNumber), end=" ")
+        print("{:>12.2f}".format(student.RunningAverage()), end=" ")
+        print("{:>12.2f}".format(student.TotalAverage()), end=" ")
+        print("{:>12}".format(student.LetterGrade()))
+    def add_student_from_file(self, filename):
+        with open(filename, "r") as f:
+            for line in f:
+                firstname, lastname, tnumber = line.strip().split(",")
+                self.add_student(firstname, lastname, tnumber)
+    def add_scores_from_file(self, filename):
+        with open(filename, "r") as f:
+            for line in f:
+                tnumber, grade = line.strip().split(",")
+                index = self.find_student(tnumber)
+                if index != -1:
+                    self.Studentlist[index].Grades.append(grade)
 
-    def ChangePassword(self, username, password):
-        usernameindex = self.FindUsername(username)
-        if usernameindex != -1:
-            self.myuserlist[usernameindex].Password = password
-            print("Password Changed")
-    
-    def AddUser(self, username, passord):
-        myuser = User(username, password)
-        self.myuserlist.append(myuser)
-        print("User Added")
 
-    def DeleteUser(self, username):
-        usernameindex = self.FindUsername(username)
-        if usernameindex != -1:
-            del self.myuserlist[usernameindex]
-            print("User Deleted")
-
-    def Strength(self, password):
-        specialcharacters = "~!@#$%^&*()_+|-={}[]:;<>?/"
-        numbers = "0123456789"
-        score = 0
-        if len(password) >= 8:
-            score += 1
-
-        for i in range(len(password)):
-            if password[i].isupper():
-                score += 1
-                break
-
-        for i in range(len(password)):
-            if password[i].islower():
-                score += 1
-                break
-
-        for i in range(len(password)):
-            for j in range(len(numbers)):
-                if password[i] == numbers[j]:
-                    score += 1
-                    break
-
-        for i in range(len(password)):
-            for j in range(len(specialcharacters)):
-                if password[i] == specialcharacters[j]:
-                    score += 1
-                    break
-        return score
-
-myuserlist= UserList("Final Project Passwords.txt")
-myuserlist.ReadUserFile()
-maxstrength = 5
-
-while True:
-    print("1) Add New User")
-    print("2) Delete Existing User")
-    print("3) Change Password On An Existing User")
-    print("4) Display All Users")
-    print("5) Save Changes To File")
-    print("6) Quit")
-    selection = input("Enter selection: ")
-    if selection == "1":
-        username = input("Enter username: ")
-        usernameindex = myuserlist.FindUsername(username)
-        if usernameindex == -1:
-            password = input("Enter password: ")
-            strength = myuserlist.Strength(password)
-            if strength >= maxstrength:
-                myuserlist.AddUser(username, password)
-            else:
-                print("Password is Weak - Strength:", strength)
-        else:
-            print("User already exists")
-    elif selection == "2":
-        username = input("Enter username: ")
-        usernameindex = myuserlist.FindUsername(username)
-        if usernameindex != -1:
-            myuserlist.DeleteUser(username)
-        else:
-            print("Username not found")
-    elif selection == "3":
-        username = input("Enter username: ")
-        usernameindex = myuserlist.FindUsername(username)
-        if usernameindex != -1:
-            password = input("Enter password: ")
-            strength = myuserlist.Strength(password)
-            if strength >= maxstrength:
-                myuserlist.ChangePassword(username, password)
-            else:
-                print("Password is Weak - Strength:", strength)
-        else:
-            print("Username not found")
-    elif selection == "4":
-        myuserlist.DisplayUserList()
-    elif selection == "5":
-        myuserlist.WriteUserFile()
-    elif selection == "6":
-        break
-    else:
-        print("Invalid Selection")
+#Main
+studentlist = StudentList()
+studentlist.add_student_from_file("11.Project Students.txt")
+studentlist.add_scores_from_file("11.Project Scores.txt")
+studentlist.print_student_list()

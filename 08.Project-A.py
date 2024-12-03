@@ -1,10 +1,13 @@
-import requests
-# Read the US Constitution from the Internet
-response = requests.get('https://www.usconstitution.net/const.txt')
-# Get the text string of the response
-USConstString = response.text
-# Split the string by newline character into a list
-USConstList = USConstString.split("\n")
+# Read the file into a list
+USConstList = []
+inputfilename = "constitution.txt"
+inputfile = open(inputfilename, 'r')
+line = inputfile.readline()
+while line != "":
+    USConstList.append(line.strip())
+    line = inputfile.readline()
+inputfile.close()
+
 # Prompt for a search term
 search = input("Enter search term: ")
 while search !="":

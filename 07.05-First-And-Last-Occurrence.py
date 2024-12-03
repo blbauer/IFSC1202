@@ -6,3 +6,5 @@ elif s.count('f') >= 2:
     first_f = s.find('f')
     last_f = s.rfind('f')
     print("{} {}".format(first_f, last_f))
+else:
+    print(0)

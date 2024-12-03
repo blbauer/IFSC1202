@@ -4,5 +4,8 @@ def factorial(n):
         res *= i
     return res
 
+
+y = 5
+x = factorial(y)
 print(factorial(3))
 print(factorial(10))
