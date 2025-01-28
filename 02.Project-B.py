@@ -27,4 +27,4 @@ y2 = float(lon2) * pi / 180
 distance = r * acos((sin(x1) * sin(x2)) + (cos(x1) * cos (x2) * cos(y1-y2)))
 
 # Print result
-print("The Great Circle Distance is", distance)
+print(f"The Great Circle Distance is {distance:.2f}")

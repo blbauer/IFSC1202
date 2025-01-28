@@ -1,5 +1,5 @@
-a = int(input("Enter a Number:"))
+a = int(input("Enter a Number: "))
 ones = a % 10
 tens = a // 10
 b = (ones * 10) + tens
-print("Swapped Number: {}".format(b))
+print(f"Swapped Number: {b}")
