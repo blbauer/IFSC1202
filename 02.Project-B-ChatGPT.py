@@ -35,10 +35,10 @@ def haversine(lat1, lon1, lat2, lon2, unit='km'):
     return distance
 
 # Example usage:
-lat1 = 52.2296756   # Latitude of point 1 (e.g., Warsaw)
-lon1 = 21.0122287   # Longitude of point 1 (e.g., Warsaw)
-lat2 = 41.8919300   # Latitude of point 2 (e.g., Rome)
-lon2 = 12.5113300   # Longitude of point 2 (e.g., Rome)
+lat1 = 38.8976   # Latitude of point 1 (e.g., Warsaw)
+lon1 = -77.0366   # Longitude of point 1 (e.g., Warsaw)
+lat2 = 39.9496   # Latitude of point 2 (e.g., Rome)
+lon2 = -75.1503   # Longitude of point 2 (e.g., Rome)
 
 distance_km = haversine(lat1, lon1, lat2, lon2, unit='km')
 distance_miles = haversine(lat1, lon1, lat2, lon2, unit='miles')

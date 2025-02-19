@@ -1,5 +1,7 @@
-i = 1
-while i <= 10:
-    print(i)
-    i += 1
-print('Loop ended, i =', i)
+for i in range(5):
+    a = int(input("Enter a Number:"))
+    if a < 0:
+        print('Met a negative number', a)
+        break
+else:
+    print('No negative numbers met')

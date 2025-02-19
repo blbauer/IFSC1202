@@ -15,7 +15,10 @@ lat1 = input("Starting Point - Enter Latitude: ")
 lon1 = input("Starting Point - Enter Longitude: ")
 lat2 = input("Ending Point - Enter Latitude: ")
 lon2 = input("Ending Point - Enter Longitude: ")
-
+#lat1 = 38.8976   # Latitude of point 1 (e.g., Warsaw)
+#lon1 = -77.0366   # Longitude of point 1 (e.g., Warsaw)
+#lat2 = 39.9496   # Latitude of point 2 (e.g., Rome)
+#lon2 = -75.1503   # Longitude of point 2 (e.g., Rome)
 # Convert to floating point and radians
 r = float(radius)
 x1 = float(lat1) * pi / 180

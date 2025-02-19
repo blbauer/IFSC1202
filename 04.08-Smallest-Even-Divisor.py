@@ -1,7 +1,6 @@
-n = int(input("Enter Number: "))
-for i in range(2,n):
-    if n % i == 0:
-        print (i, "is the smallest even divisor")
-        break
+i = 1
+while i <= 10:
+    print(i)
+    i += 1
 else:
-    print ("No even divisor")
+    print('Loop ended, i =', i)
