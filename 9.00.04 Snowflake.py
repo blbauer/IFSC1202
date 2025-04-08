@@ -9,10 +9,13 @@ for i in range(n):
 # left to right diagonal
 	a[i][i] = '*'
 # middle row
+for i in range(n):
 	a[n // 2][i] = '*'
 # middle column
+for i in range(n):
 	a[i][n // 2] = '*'
 # right to left diagonal	
+for i in range(n):
 	a[i][n - i - 1] = '*'
 # print the snowflake
 for i in range(len(a)):

@@ -27,3 +27,6 @@ print(d[0][0])
 print(d[0][1])
 print(d[0][2])
 print(d)
+x=3
+y=10
+print(d[x][y])
