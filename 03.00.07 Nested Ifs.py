@@ -1,3 +1,4 @@
+z = input("Enter a Letter: ")
 x = int(input("Enter X value: "))
 y = int(input("Enter Y value: "))
 if x > 0:

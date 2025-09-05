@@ -3,3 +3,6 @@ if x > 0:
     print(x)
 else:
     print(-x)
+print("first line")
+
+print("second line")

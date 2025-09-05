@@ -1,17 +1,62 @@
-class Sketch:
-    def init(self, size):
-        self.size = size
-        self.xpos = 0 
-        self.ypos = 0 
-        self.direction = 'U' 
-        self.pen = 'U' 
-        self.canvas =[[' ' for in range(size)] for in range(size)] 
+y = input("Enter the time in seconds:")
+n = int(y)
+Z = "Seconds"
+X = "Minutes"
+C = "Hours"
+V = "Days"
+B = "Years"
+if n/60 < 1:
+    u = str(n)
+    W = u + " " + Z
+    print(W)
+else:
+     S = n%60
+     e = str(S)
+     W = e + " " + Z
+     print(W)
+     #end of seconds
+     floatval1 = n / 60
+     m = int(floatval1)
 
-def printsketch(self): 
-    print('+' + '-' * self.size + '+') 
-    for row in range(self.size - 1, -1, -1): line = '|' for col in range(self.size): 
-line +=self.canvas[row][col] line += '|' print(line) 
-print('+' + '-' * self.size + '+') 
-print(f'Position: ({self.xpos}, {self.ypos}) 
-Direction: {self.direction} 
-Pen: {self.pen}') def penup(self): self.pen = 'U' def pendown(self): self.pen = 'D'
+     if m/60 < 1:
+          e = str(m)
+          W = e + " " + X
+          print(W)
+     else:
+          M = m%60
+          e = str(M)
+          W = e + " " + X
+          print(W)
+          #end of minutes
+          floatval2 = m / 60
+          h = int(floatval2)
+
+          if h/24 < 1:
+               e = str(h)
+               W= e + " " + C
+               print(W)
+          else:
+               H = h%24
+               e = str(H)
+               W = e + " " + C
+               print(W)
+               #end of hours
+               floatval3 = h/24
+               d = int(floatval3)
+
+               if d/365 < 1:
+                    e = str(d)
+                    W = e + " " + V
+                    print(W)
+               else:
+                    D = d%365
+                    e = str(D)
+                    W = e +  " " + V
+                    print(W)
+                    #end of days
+                    floatval4 = d/365
+                    Y = int(floatval4)
+                    e = str(Y)
+                    W = e +  " " + B
+                    print(W)
+                    #end of years
