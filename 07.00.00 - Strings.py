@@ -1,6 +1,8 @@
 # Example 1
 print("Example 1")
 print('>_< ' * 5)  # >_< >_< >_< >_< >_<
+x = 50
+print("-" * x)
 
 # Example 2
 print("Example 2")

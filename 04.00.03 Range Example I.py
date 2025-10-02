@@ -1,3 +1,3 @@
-for i in range(5, 8):
+for i in range(5, 10):
     print(i, i ** 2)
 print("End of Loop")
