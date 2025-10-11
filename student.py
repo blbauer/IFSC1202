@@ -1,48 +1,46 @@
+input_filename = "06.Project Input File.txt"
+merge_filename = "06.Project Merge File.txt"
+output_filename = "06.Project Output File.txt"
+merge_marker = "Insert Merge File Here"
 
+input_record_count = 0
+merge_record_count = 0
+output_record_count = 0
 
-def merge(input_path, merger_path, output_path):
+try:
+    with open(input_filename, 'r') as infile, \
+         open(merge_filename, 'r') as mergefile, \
+         open(output_filename, 'w') as outfile:
 
-    input_o = open(input_path, 'r')
-    merger_o = open(merger_path, 'r')
-    outputw = open(output_path, 'w')
+        # Copy lines from input file until the merge marker is found
+        for line in infile:
+            input_record_count += 1
+            output_record_count += 1
+            if merge_marker in line:
+                # Write the line containing the marker
+                outfile.write(line)
+                
+                # Copy lines from merge file
+                for merge_line in mergefile:
+                    merge_record_count += 1
+                    output_record_count += 1
+                    outfile.write(merge_line)
+                # After merging, continue with the rest of the input file
+                break 
+            else:
+                outfile.write(line)
 
-    a = -1
-    for line in input_o:
-        a += 1
-    input_o.seek(0) 
+        # Continue copying lines from the input file if not all were processed before the merge
+        for line in infile:
+            input_record_count += 1
+            output_record_count += 1
+            outfile.write(line)
 
-    b = 0
-    for line in merger_o:
-        b += 1
-    merger_o.seek(0)
-    
-    A= str(a)
-    B= str(b)
-    print( A + " input file records")
-    print( B + " merge file records")
+except FileNotFoundError:
+    print(f"Error: One or more files not found. Ensure '{input_filename}', '{merge_filename}', and '{output_filename}' exist.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
 
-    ##########################
-    
-    for line in input_o:
-        if "**Insert Merge File Here**" in line:
-            for m_line in merger_o:
-                outputw.write(m_line)
-        else:
-            outputw.write(line)
-
-    ##############################
-
-    outputw.close()
-    
-    outputr = open(output_path, 'r')
-    c = len(outputr.readlines())
-    C= str(c)
-    print( C + " output file records")
-
-    input_o.close()
-    merger_o.close()
-    outputr.close() 
-    
-##################################
-
-merge("06.Project Input File.txt", "06.Project Merge File.txt", "06.Project Output File.txt")
+print(f"Number of records in {input_filename}: {input_record_count}")
+print(f"Number of records in {merge_filename}: {merge_record_count}")
+print(f"Number of records in {output_filename}: {output_record_count}")
