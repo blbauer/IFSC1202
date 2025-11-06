@@ -1,0 +1,235 @@
+#
+# Employee Class
+# Attributes:
+#   EmployeeNumber
+#   FirstName
+#   LastName
+#   Address
+#   City
+#   State
+#   Zip
+#
+class Employee():
+    def __init__(self, employeeNumber, firstName, lastName, address, city, state, zip):
+        self.EmployeeNumber = employeeNumber
+        self.FirstName = firstName
+        self.LastName = lastName
+        self.Address = address
+        self.City = city
+        self.State = state
+        self.Zip = zip
+
+    def validateFirstName(self, firstName):
+        if firstName != "":
+            return ""
+        else:
+            return "First Name Cannot be Blank"
+
+    def validateLastName(self, lastName):
+        if lastName != "":
+            return ""
+        else:
+            return "Last Name Cannot be Blank"
+
+    def validateAddress(self, address):
+        if address != "":
+            return ""
+        else:
+            return "Address Cannot be Blank"
+        
+    def validateCity(self, city):
+        if city != "":
+            return ""
+        else:
+            return "City Cannot be Blank"
+
+    def validateState(self, state):
+        if state != "":
+            return ""
+        else:
+            return "State Cannot be Blank"
+
+    def validateZip(self, zip):
+        if zip != "":
+            return ""
+        else:
+            return "Zip Code Cannot be Blank"
+
+#
+# EmployeeList Class
+# Attributes:
+#       EmployeeList - a list of Employee object
+#       FileName- File name of a file containing Employee data separated by a comma
+#
+class EmployeeList():
+    def __init__ (self, FileName):
+        self.EmployeeList = []
+        self.FileName = FileName
+#
+# ReadEmployeeFile
+#   Opens FileName file containing employee information
+#   Creates an Employee Object
+#   Appends Employee Object to EmployeeList
+#
+    def ReadEmployeeFile(self):
+        EmployeeFile = open(self.FileName, "r")
+        x = EmployeeFile.readline()
+        while x != "":
+            y = x.split(",")
+            self.EmployeeList.append(Employee(y[0].strip(), y[1].strip(), y[2].strip(), y[3].strip(), y[4].strip(), y[5].strip(), y[6].strip()))
+            x = EmployeeFile.readline()
+        EmployeeFile.close()
+#
+# WriteEmployeeFile
+#   Opens FileName for writing
+#   Loops though the EmployeeList
+#   Writes Employee data in .CSV format
+#
+    def WriteEmployeeFile(self):
+        EmployeeFile = open(self.FileName, "w")
+        for i in range(len(self.EmployeeList)):
+            EmployeeFile.write(self.EmployeeList[i].EmployeeNumber + ", " + self.EmployeeList[i].FirstName + ", " + self.EmployeeList[i].LastName + ", " + self.EmployeeList[i].Address + ", " + self.EmployeeList[i].City + ", " + self.EmployeeList[i].State + ", " + self.EmployeeList[i].Zip + "\n")
+        EmployeeFile.close()
+#
+# DisplayEmployeeList
+#   Prints Employee headings and data from the EmployeeList
+#   Loops through the EmployeeList
+#   Prints the Unsername and Password of each Employee object in the EmployeeList
+#
+    def DisplayEmployeeList(self):
+        print("{:15s} {:15s} {:15s} {:15s} {:15s} {:15s} {:15s}".format("Employee","First", "Last", "Address", "City", "State", "Zip"))
+        print("{:15s} {:15s} {:15s}".format("Number","Name", "Name"))
+        print("{:15s} {:15s} {:15s} {:15s} {:15s} {:15s} {:15s}".format(15*"-", 15*"-", 15*"-", 15*"-", 15*"-", 15*"-", 15*"-"))
+        for i in range(len(self.EmployeeList)):
+            print("{:15s} {:15s} {:15s} {:15s} {:15s} {:15s} {:15s}".format(self.EmployeeList[i].EmployeeNumber, self.EmployeeList[i].FirstName, self.EmployeeList[i].LastName, self.EmployeeList[i].Address, self.EmployeeList[i].City, self.EmployeeList[i].State, self.EmployeeList[i].Zip))
+#
+# FindEmployee
+#   Loops through the EmployeeList looking for a matching Employee Number
+#   Return the index of Employee in EmployeeList
+#   If Employee not found then return -1
+#
+    def FindEmployee(self, EmployeeNumberToFind):
+        for i in range(len(self.EmployeeList)):
+            if self.EmployeeList[i].EmployeeNumber == EmployeeNumberToFind:
+                return i
+        return -1
+#
+# ChangeEmplopyee
+#   Using FindEmployee, determine if the Employee exists
+#   if the Employee exists, then update the Employee attributes
+#
+    def ChangeEmployee(self, employeeNumber, firstName, lastName, address, city, state, zip):
+        EmployeeIndex = self.FindEmployee(employeeNumber)
+        if EmployeeIndex != -1:
+            self.FirstName = firstName
+            self.LastName = lastName
+            self.Address = address
+            self.City = city
+            self.State = state
+            self.Zip = zip
+#
+# AddEmployee
+#   Get the EmployeeNumber of last employee
+#   Add 1 to it an make it the Employee Number of the new employee
+#   Append new Employee object to end of list
+#
+    def AddEmployee(self, firstName, lastName, address, city, state, zip):
+        LastEmployeeNumber = int(MyEmployeeList.EmployeeList[-1].EmployeeNumber)
+        NextEmployeeNumber = str(LastEmployeeNumber + 1)
+        self.EmployeeList.append(Employee(NextEmployeeNumber, firstName, lastName, address, city, state, zip))
+#
+# DeleteEmployee
+#   Employee FindEmployee to locate the index of the Employee in EmployeeList
+#   If Employee was found
+#       Delete the Employee Object from the list
+#
+    def DeleteEmployee(self, EmployeeToFind):
+        EmployeeIndex = self.FindEmployee(EmployeeToFind)
+        if EmployeeIndex != -1:
+            del self.EmployeeList[EmployeeIndex]
+#
+# Main Program
+#
+#  Create a Employee List Object using a file name
+MyEmployeeList = EmployeeList("Final Project Employees.txt")
+#
+# Read the file and create the list
+MyEmployeeList.ReadEmployeeFile()
+#
+# Display a menu and get selection
+Selection = "0"
+while Selection != "6":
+
+    print()
+    print("1) Add a New Employee")
+    print("2) Delete an Existing Employee")
+    print("3) Change Password on an Existing Employee")
+    print("4) Display All Employees")
+    print("5) Save Changes to File")
+    print("6) Quit")
+    print()
+    Selection = input("Enter Selection: ")
+    print()
+#
+# Selection 1 - Add a Mew Employee
+    if Selection == "1":
+        employeeNumber = str(len(MyEmployeeList.EmployeeList) + 1)
+        firstName = input("Enter FirstName: ")
+        lastName = input("Enter Last Name: ")
+        address = input("Enter Address: ")
+        city = input("Enter City: ")
+        state = input("Enter State: ")
+        zip = input("Enter Zip: ")
+        MyEmployeeList.AddEmployee(firstName, lastName, address, city, state, zip)
+        print("Employee Added")
+#
+# Selection 2 - Delete an Existing Employee
+    elif Selection == "2":
+        employeeNumber = input("Enter Employee Number: ")
+#       Check to see if Employee exists
+        EmployeeIndex = MyEmployeeList.FindEmployee(employeeNumber)
+        if EmployeeIndex == -1:
+#           Employee does not exist - print error message
+            print("Employee Not Found")
+        else:
+#           Employeename exists; delete Employee
+            MyEmployeeList.DeleteEmployee(employeeNumber)
+            print("Employee Deleted")
+#
+# Selection 3 - Change Data on Existing EmployeeEmployee
+    elif Selection == "3":
+        employeeNumber = int(input("Enter Employee Number: "))
+#       Check to see if the Employee exists
+        EmployeeIndex = MyEmployeeList.FindEmployee(employeeNumber)
+        if EmployeeIndex == -1:
+#           Employee does not exist - print error message
+            print("Employee Not Found")
+        else:
+#           Employee exists - prompt for data
+            firstName = input("Enter FirstName: ")
+            lastName = input("Enter Last Name:")
+            address = input("Enter Address:")
+            city = input("Enter City:")
+            state = input("Enter State:")
+            zip = input("Enter Zip:")
+            MyEmployeeList.ChangeEmployee(employeeNumber, firstName, lastName, address, city, state, zip)
+            print("Employee Changed")
+#
+# Selection 4 - Prints the Employee List
+    elif Selection == "4":
+        MyEmployeeList.DisplayEmployeeList()
+#
+# Selection 5 - Save the Employee List to the file
+    elif Selection == "5":
+        MyEmployeeList.WriteEmployeeFile()
+        print("Changes Saved")
+#
+# Select 6 - Quit
+    elif Selection == "6":
+        pass
+#
+# Invalid Selection
+    else:
+        print("Invalid Selection")
+
+print("Good-bye")
