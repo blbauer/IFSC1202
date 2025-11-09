@@ -1,59 +1,54 @@
-# Israel Davidson
-# Exam Two Project - Car Sales Data Analysis
+import csv
 
-        # Read car sales data from file
-car_sales_list = {}
-with open("CarSales.txt", "r") as file:
-    for line in file:
-        car_data = line.strip().split(",")
-        car_brand = car_data[0]
-        car_sales_list[car_brand] = {
-            "make": car_data[0],
-            "price": float(car_data[1])
-        }
+def main():
+    # Step 1: Read the CSV file into a 2D list
+    filename = "09.Project Distances.csv"
 
-# Calculate overall statistics
-total_cars = len(car_sales_list)
-total_price = sum(car["price"] for car in car_sales_list.values())
-average_price = total_price / total_cars if total_cars > 0 else 0
-print(f"Total number of cars - average price: {total_cars} - ${average_price:.2f}")
+    try:
+        with open(filename, "r", encoding="utf-8") as file:
+            reader = csv.reader(file)
+            table = [row for row in reader]
+    except FileNotFoundError:
+        print(f"Error: Could not find file '{filename}'.")
+        return
 
-# Prompt user for a car brand to search
-search_brand = input("Enter Car Brand to search for statistics: ")
-if search_brand in car_sales_list:
-    car_info = car_sales_list[search_brand]
-    cars_sold = car_info["quantity_sold"]
-    average_price_make = car_info["price"]
-# Calculate percentage difference
-percentage = ((average_price_make - average_price) / average_price) * 1000 if average_price != 0 else 0
+    # Step 2: Print the table neatly formatted
+    print()
+    for i, row in enumerate(table):
+        for j, col in enumerate(row):
+            # Align text and numbers into columns
+            print(f"{col:>10}", end=" ")
+        print()  # New line after each row
 
-print(f"{cars_sold} Cars Sold")
-print(f"${average_price_make} Average Price")
+    # Step 3: Prompt user for cities
+    print()
+    from_city = input("Enter From City: ").strip()
+    to_city = input("Enter To City: ").strip()
 
-if percentage >= 0:
-    print(f"{percentage:.2f}% Above Average")
-else:
-    print(f"{percentage:.2f}% Below Average")
+    # Step 4: Search for the From and To city indexes
+    from_index = -1
+    to_index = -1
 
-#if __name__ == "__main__":
-#main()
-    
-        # Loop to allow multiple searches until user types blank car brand entry
-while True:
-    search_brand=input("Enter Car Brand to search for statistics (or blank entry to quit): ")
-    if search_brand=="":
-        break
-    # Convert to uppercase for case-insensitive search
-    search_brand=search_brand.upper()
-    if search_brand in car_sales_list:
-        car_info=car_sales_list[search_brand]
-        print(f"Car Brand: {search_brand}, Make: {car_info['make']}, Price: ${car_info['price']:.2f}, Quantity Sold: {car_info['quantity_sold']}")
+    # Search zeroth column for From City
+    for i in range(1, len(table)):  # Skip header row
+        if table[i][0].strip().lower() == from_city.lower():
+            from_index = i
+            break
+
+    # Search zeroth row for To City
+    for j in range(1, len(table[0])):  # Skip first column
+        if table[0][j].strip().lower() == to_city.lower():
+            to_index = j
+            break
+
+    # Step 5: Validate and print results
+    if from_index == -1:
+        print("Invalid From City.")
+    elif to_index == -1:
+        print("Invalid To City.")
     else:
-        print("Car Brand not found.")
+        distance = table[from_index][to_index]
+        print(f"{from_city} to {to_city} - {distance} miles")
 
-# Calculate and print total sales for each car
-for car_brand, car_info in car_sales_list.items():
-    total_sales=car_info["price"]*car_info["quantity_sold"]
-    print(f"Car Brand: {car_brand}, Make: {car_info['make']}, Total Sales: ${total_sales:.2f}")
-
-
+if __name__ == "__main__":
+    main()
