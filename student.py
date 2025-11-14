@@ -1,54 +1,169 @@
-import csv
+import os
+
+class Student:
+
+    def __init__ (self, firstname, lastname, tnumber, score=None):
+        
+        self.FirstName = firstname
+        self.LastName = lastname
+        self.TNumber = tnumber
+        self.Grades = score if score is not None else [] 
+        self.TotalAssignments = 0 
+
+#######################################
+
+    def RunningAverages(self):
+        Scores = []
+        for score in self.Grades:
+            if score.strip():
+                Scores.append(int(score))
+        
+        if not Scores:
+            return 0.0
+        
+        return sum(Scores) / len(Scores)
+    
+#######################################
+
+    def TotalAverage(self):
+        num_assignments = self.TotalAssignments
+        
+        if num_assignments == 0:
+            return 0.0
+
+        total_score = 0
+        for score in self.Grades:
+            if score.strip():
+                total_score += int(score)
+
+        return total_score / num_assignments 
+    
+#######################################
+
+    def LetterGrade(self):
+        average = self.TotalAverage()
+
+        if average >= 90:
+            return "A"
+        elif average >= 80:
+            return "B"
+        elif average >= 70:
+            return "C"
+        elif average >= 60:
+            return "D"
+        else:
+            return "F"
+        
+####################################################3####3
+#Second MAin
+class StudentList: 
+    
+    def __init__ (self):
+        self.Studentlist = []
+        self.MaxAssignments = 0 
+
+#######################################
+
+    def add_student(self, firstname, lastname, tnumber, score=None):
+        
+        newstudent = Student(firstname, lastname, tnumber, score) 
+        self.Studentlist.append(newstudent)
+
+#######################################
+
+    def find_student(self, tnumber):
+
+        for index, student in enumerate(self.Studentlist): 
+            if student.TNumber == tnumber:
+                return index
+        return -1
+
+#######################################
+
+    def print_student_list(self):
+
+        HEADER = (
+            f"\n{'First':>12}{'Last':>12}{'ID':>12}{'Running':>12}{'Semester':>12}{'Letter':>12}\n"
+            f"{'Name':>12}{'Name':>12}{'Number':>12}{'Average':>12}{'Average':>12}{'Grade':>12}\n"
+            f"{'-'*12}{' '}{'-'*11}{' '}{'-'*11}{' '}{'-'*11}{' '}{'-'*11}{' '}{'-'*11}" 
+        )
+        print(HEADER)
+
+        for student in self.Studentlist:
+            student.TotalAssignments = self.MaxAssignments
+
+        for student in self.Studentlist:
+            running_avg = student.RunningAverages() 
+            total_avg = student.TotalAverage()
+            letter_grade = student.LetterGrade()
+
+            output = (
+                        f"{student.FirstName:>12}"
+                        f"{student.LastName:>12}"
+                        f"{student.TNumber:>12}"
+                        f"{running_avg:>12.2f}"
+                        f"{total_avg:>12.2f}"
+                        f"{letter_grade:>12}"
+                        )
+            print(output)
+
+#######################################
+
+    def add_student_from_file(self, filename):
+        with open(filename, 'r') as openfile:
+            for line in openfile:
+                if not line.strip():
+                    continue
+
+                parts = line.strip().split(',')
+
+                if len(parts) >= 3:
+                    first_name, last_name, t_number = [p.strip() for p in parts[:3]]
+                    self.add_student(first_name, last_name, t_number, []) 
+
+#######################################
+    
+    def add_scores_from_file(self, filename):
+        temp_scores_tracker = {student.TNumber: [] for student in self.Studentlist}
+        
+        with open(filename, 'r') as openfile:
+            for line in openfile:
+                if not line.strip():
+                    continue
+
+                parts = line.strip().split(',')
+                
+                if len(parts) >= 2: 
+                    t_number = parts[0].strip() 
+                    score = parts[1].strip()
+
+                    if t_number in temp_scores_tracker:
+                        temp_scores_tracker[t_number].append(score)
+
+        if not temp_scores_tracker:
+            return
+
+        self.MaxAssignments = max(len(scores) for scores in temp_scores_tracker.values())
+        
+        for student in self.Studentlist:
+            t_number = student.TNumber
+            if t_number in temp_scores_tracker:
+                student.Grades = temp_scores_tracker[t_number]
+            
+            student.TotalAssignments = self.MaxAssignments
+
+#######################################1
+
+STUDENTFILE = "11.Project Students.txt"
+SCOREFILE = "11.Project Scores.txt"
 
 def main():
-    # Step 1: Read the CSV file into a 2D list
-    filename = "09.Project Distances.csv"
 
-    try:
-        with open(filename, "r", encoding="utf-8") as file:
-            reader = csv.reader(file)
-            table = [row for row in reader]
-    except FileNotFoundError:
-        print(f"Error: Could not find file '{filename}'.")
-        return
-
-    # Step 2: Print the table neatly formatted
-    print()
-    for i, row in enumerate(table):
-        for j, col in enumerate(row):
-            # Align text and numbers into columns
-            print(f"{col:>10}", end=" ")
-        print()  # New line after each row
-
-    # Step 3: Prompt user for cities
-    print()
-    from_city = input("Enter From City: ").strip()
-    to_city = input("Enter To City: ").strip()
-
-    # Step 4: Search for the From and To city indexes
-    from_index = -1
-    to_index = -1
-
-    # Search zeroth column for From City
-    for i in range(1, len(table)):  # Skip header row
-        if table[i][0].strip().lower() == from_city.lower():
-            from_index = i
-            break
-
-    # Search zeroth row for To City
-    for j in range(1, len(table[0])):  # Skip first column
-        if table[0][j].strip().lower() == to_city.lower():
-            to_index = j
-            break
-
-    # Step 5: Validate and print results
-    if from_index == -1:
-        print("Invalid From City.")
-    elif to_index == -1:
-        print("Invalid To City.")
-    else:
-        distance = table[from_index][to_index]
-        print(f"{from_city} to {to_city} - {distance} miles")
+    student_list_manager = StudentList()
+    student_list_manager.add_student_from_file(STUDENTFILE)
+    student_list_manager.add_scores_from_file(SCOREFILE)
+    student_list_manager.print_student_list()
 
 if __name__ == "__main__":
     main()
+    

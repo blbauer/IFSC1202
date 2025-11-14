@@ -15,7 +15,7 @@ class Rectangle:
         return sqrt((self.base * self.base) + (self.height * self.height))
 
 myRectangleList = []
-rectanglefile = open("Exam Three Triangles.txt")
+rectanglefile = open("Exam Three Rectangles.txt")
 rectangledata = rectanglefile.readline()
 while rectangledata != '':
     rectanglevalues = rectangledata.split(",")
@@ -23,6 +23,6 @@ while rectangledata != '':
     myRectangleList.append(objRectangle)
     rectangledata = rectanglefile.readline()
 
-print("{:>10s} {:>10s} {:>10s} {:>10s} {:>10s}".format("Base", "Height", "Perimeter", "Area", "Diagonal"))
+print("{:>10s}{:>10s}{:>10s}{:>10s}{:>10s}".format("Base", "Height", "Perimeter", "Area", "Diagonal"))
 for i in range(len(myRectangleList)):
-    print("{:>10.3f} {:>10.3f} {:>10.3f} {:>10.3f} {:>10.3f}".format(myRectangleList[i].base, myRectangleList[i].height, myRectangleList[i].perimeter(), myRectangleList[i].area(), myRectangleList[i].diagonal()))
+    print("{:>10.3f}{:>10.3f}{:>10.3f}{:>10.3f}{:>10.3f}".format(myRectangleList[i].base, myRectangleList[i].height, myRectangleList[i].perimeter(), myRectangleList[i].area(), myRectangleList[i].diagonal()))

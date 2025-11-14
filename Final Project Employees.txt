@@ -1,3 +1,2 @@
-5, Bruce, Bauer, 101 Main, Little Rock, AR, 72211
-7, Jane, Doe, 100 Broadway, Little Rock, AR, 72209
-8, Fred, Flinstone, 101 Rock, Bedrock, CA, 99999
+5, Bruce, Bauer, 101 Markham, Little Rock, AR, 72200
+7, Jane, Doe, 100 Chicot, Little Rock, AR, 72209
