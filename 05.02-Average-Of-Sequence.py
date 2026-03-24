@@ -10,3 +10,4 @@ if sequencecount != 0:
     print("Average: {}".format(sequenceaverage))
 else:
     print("Sequence Length is 0")
+

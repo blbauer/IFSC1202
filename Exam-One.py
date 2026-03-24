@@ -24,5 +24,5 @@ for guessesTaken in range(1,6):
         break
     # Either we have had more than 5 guesses or the correct guess was enter
     # if the guess was not correct, then display the appropriate message
-if guess != number:
+else:
     print("Nope. The number I was thinking of was " + str(number))

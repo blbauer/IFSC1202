@@ -6,5 +6,6 @@ def factorial(n):
 
 y = 5
 x = factorial(y)
+print(x)
 print(factorial(3))
 print(factorial(10))
