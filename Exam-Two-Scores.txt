@@ -1,2 +1,4 @@
 Arkansas,0,10,14,10
-Texas,14,7,7,7
+Texas,14,7,7,3
+Missouri,0,0,7,7
+LSU,14,10,3,3
